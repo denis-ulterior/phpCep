@@ -1,0 +1,19 @@
+{
+    "name": "ulteriorti/digitalcep",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ulteriorti\\Digitalcep\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Denis Souza",
+            "email": "denis.souza@ulteriorti.com.br"
+        }
+    ],
+    "require": {
+        "php":">= 8.0"
+
+    }
+}
