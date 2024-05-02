@@ -2,6 +2,9 @@
 declare(strict_types=1);
 namespace Ulteriorti\Digitalcep;
 
+use Exception;
+use PhpParser\Node\Expr\Throw_;
+
 /*
 *Realiza busca do CEP no VIACEP
 */
@@ -12,8 +15,20 @@ class Search{
         $zipCode = preg_replace('/[^0-9]/im','',$zipCode);
         $zipCodeInt = intval($zipCode);
         $zipCodeInt = filter_var($zipCode,FILTER_VALIDATE_INT);
-        $get = file_get_contents(self::URL.$zipCodeInt."/json");
-        return (array) json_decode($get);
+        $retorno = $this->obterDados($zipCodeInt);
+        return (array) json_decode($retorno);
 
+    }
+    private function obterDados(int $zipCodeInt) : string {
+        try{
+
+        $get = @file_get_contents(self::URL.$zipCodeInt."/json");
+        if ($get === false){
+            throw new Exception("Falha ao obter dados com a entrada informada");
+        }
+        } catch (Exception $e){
+            return ("{".'"'.$zipCodeInt.'" :'. '"'.$e->getMessage().'"'."}");
+        }
+        return $get;
     }
 }
